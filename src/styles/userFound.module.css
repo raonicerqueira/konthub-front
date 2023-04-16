@@ -1,0 +1,18 @@
+.background {
+  background-color: #d3cde22a;
+  min-height: 100vh;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+}
+
+.repositories_container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 85rem;
+  margin: 2rem auto;
+}
