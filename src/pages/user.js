@@ -1,31 +1,49 @@
+import { useState, useEffect } from "react";
+import axios from "axios";
+
 import styles from "../styles/userFound.module.css";
 
 import Header from "../components/header/header";
-
 import Card from "../components/card/card";
 
-export default function User(username) {
-  const APIURL1 = `http://localhost:8080/users/${username}/repositories`;
-  const APIURL2 = `http://localhost:8080/users/${username}`;
+export default function User({ username }) {
+  const [repositories, setRepositories] = useState();
+  const [user, setUser] = useState();
+  const [loading, setLoading] = useState(true);
 
-  const response1 = fetch(APIURL1);
-  const response2 = fetch(APIURL2);
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8080/users/${username}/repositories`)
+      .then((response) => {
+        setRepositories(response.data);
+      });
 
-  const repositories = response1.json();
-  const user = response2.json();
+    axios.get(`http://localhost:8080/users/${username}`).then((response) => {
+      setUser(response.data);
+      setLoading(false);
+    });
+  }, []);
 
   return (
-    <div className={styles.background}>
-      <header className={styles.header}>
-        <Header user={user} />
-      </header>
-      <>
-        <div className={styles.repositories_container}>
-          {repositories.map((repository) => (
-            <Card key={repository.id} repository={repository} />
-          ))}
-        </div>
-      </>
-    </div>
+    <>
+      {loading ? (
+        "Loading..."
+      ) : (
+        <>
+          <div className={styles.background}>
+            <header className={styles.header}>
+              <Header user={user} />
+            </header>
+            <>
+              <div className={styles.repositories_container}>
+                {repositories.map((repository) => (
+                  <Card key={repository.id} repository={repository} />
+                ))}
+              </div>
+            </>
+          </div>
+        </>
+      )}
+    </>
   );
 }
