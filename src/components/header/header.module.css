@@ -1,17 +1,13 @@
 .main {
-  
-  color: #fafafabe;
-
   display: flex;
   justify-content: space-around;
   align-items: center;
   padding: 2rem 1rem;
-  margin-bottom: 2rem;
+  margin: 50px 0;
   width: 85%;
   border-radius: 1rem;
   box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.5);
-
-  margin-top: 50px;
+  color: #fafafabe;
 }
 
 .picture {
@@ -38,11 +34,6 @@
 .following {
   display: inline;
   margin-right: 1rem;
-}
-
-.created {
-  display: flex;
-  gap: 0.2rem;
 }
 
 .location {

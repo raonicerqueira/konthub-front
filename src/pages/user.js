@@ -7,43 +7,42 @@ import Header from "../components/header/header";
 import Card from "../components/card/card";
 
 export default function User({ username }) {
-  const [repositories, setRepositories] = useState();
-  const [user, setUser] = useState();
+  const [repositories, setRepositories] = useState([]);
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:8080/users/${username}/repositories`)
-      .then((response) => {
-        setRepositories(response.data);
-      });
+    const fetchData = async () => {
+      try {
+        const [reposResponse, userResponse] = await Promise.all([
+          axios.get(`http://localhost:8080/users/${username}/repositories`),
+          axios.get(`http://localhost:8080/users/${username}`),
+        ]);
 
-    axios.get(`http://localhost:8080/users/${username}`).then((response) => {
-      setUser(response.data);
-      setLoading(false);
-    });
-  }, []);
+        setRepositories(reposResponse.data);
+        setUser(userResponse.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [username]);
 
   return (
-    <>
-      {loading ? (
-        "Loading..."
-      ) : (
-        <>
-          <div className={styles.background}>
-            <header className={styles.header}>
-              <Header user={user} />
-            </header>
-            <>
-              <div className={styles.repositories_container}>
-                {repositories.map((repository) => (
-                  <Card key={repository.id} repository={repository} />
-                ))}
-              </div>
-            </>
-          </div>
-        </>
-      )}
-    </>
+    <div className={styles.background}>
+      <header className={styles.header}>
+        {user && <Header user={user} />}
+      </header>
+      <div className={styles.repositories_container}>
+        {loading
+          ? "Loading..."
+          : repositories.map((repository) => (
+              <Card key={repository.id} repository={repository} />
+            ))}
+      </div>
+    </div>
   );
 }

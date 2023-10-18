@@ -1,19 +1,17 @@
 .card {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
 
   padding: 2rem 1rem;
   margin-bottom: 2rem;
-
   width: 31%;
   min-height: 250px;
 
   border-radius: 1rem;
   box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.5);
   color: #fafafabe;
-
   cursor: pointer;
 }
 
@@ -23,7 +21,6 @@
 
 .name {
   text-transform: uppercase;
-
   font-weight: bolder;
   margin-bottom: 1rem;
 }
